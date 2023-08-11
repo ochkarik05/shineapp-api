@@ -1,10 +1,10 @@
 package com.shineapp.api
 
-import com.shineapp.api.plugins.configureRouting
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.server.testing.*
+import pro.shineapp.api.plugins.configureRouting
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

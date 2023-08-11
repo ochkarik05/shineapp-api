@@ -2,6 +2,9 @@ package com.shineapp.api.security.hashing
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
+import pro.shineapp.api.auth.security.hashing.HashService
+import pro.shineapp.api.auth.security.hashing.SHA256HashingService
+import pro.shineapp.api.auth.security.hashing.SaltService
 
 
 class SHA256HashingServiceTest{
