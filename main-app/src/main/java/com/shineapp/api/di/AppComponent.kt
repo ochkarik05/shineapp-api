@@ -4,7 +4,6 @@ import com.shineapp.api.data.source.MongoUserDataSource
 import com.shineapp.api.data.source.UserDataSource
 import me.tatarka.inject.annotations.Component
 import me.tatarka.inject.annotations.Provides
-import org.litote.kmongo.coroutine.CoroutineDatabase
 import org.litote.kmongo.coroutine.coroutine
 import org.litote.kmongo.reactivestreams.KMongo
 

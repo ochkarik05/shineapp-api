@@ -65,4 +65,5 @@ fun Application.configureSecurity() {
     }
 }
 
+@Suppress("UNUSED_PARAMETER")
 class UserSession(accessToken: String)
