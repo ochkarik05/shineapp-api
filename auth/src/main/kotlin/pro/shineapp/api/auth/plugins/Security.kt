@@ -11,8 +11,10 @@ import io.ktor.server.auth.jwt.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.sessions.*
+import pro.shineapp.api.auth.security.token.TokenConfig
 
-fun Application.configureSecurity() {
+fun Application.configureSecurity(lazyConfig: Lazy<TokenConfig>) {
+    val config by lazyConfig
     authentication {
             oauth("auth-oauth-google") {
                 urlProvider = { "http://localhost:8080/callback" }
@@ -30,23 +32,20 @@ fun Application.configureSecurity() {
                 client = HttpClient(Apache)
             }
         }
-    // Please read the jwt property from the config file if you are using EngineMain
-    val jwtAudience = "jwt-audience"
-    val jwtDomain = "https://jwt-provider-domain/"
+
     val jwtRealm = "ktor sample app"
-    val jwtSecret = "secret"
     authentication {
         jwt {
             realm = jwtRealm
             verifier(
                 JWT
-                    .require(Algorithm.HMAC256(jwtSecret))
-                    .withAudience(jwtAudience)
-                    .withIssuer(jwtDomain)
+                    .require(Algorithm.HMAC256(config.secret))
+                    .withAudience(config.audience)
+                    .withIssuer(config.issuer)
                     .build()
             )
             validate { credential ->
-                if (credential.payload.audience.contains(jwtAudience)) JWTPrincipal(credential.payload) else null
+                if (credential.payload.audience.contains(config.audience)) JWTPrincipal(credential.payload) else null
             }
         }
     }

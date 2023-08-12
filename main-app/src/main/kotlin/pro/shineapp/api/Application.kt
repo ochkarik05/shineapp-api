@@ -14,18 +14,8 @@ fun main(args: Array<String>) {
 
 @Suppress("unused")
 fun Application.module() {
-    appComponent.hashingComponent.hashingService.also {
-        println("### hashCode: ${it.hashCode()}")
-    }.generateSaltedHash("@@@").also {
-        println("### $it")
-    }
-    appComponent.hashingComponent.hashingService.also {
-        println("### hashCode: ${it.hashCode()}")
-    }.generateSaltedHash("@@@").also {
-        println("### $it")
-    }
     configureMonitoring()
     configureSerialization()
-    configureSecurity()
+    configureSecurity(appComponent.tokenConfig)
     configureRouting()
 }

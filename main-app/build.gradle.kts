@@ -45,6 +45,10 @@ dependencies {
     testImplementation(libs.ktor.server.tests.jvm)
     testImplementation(platform(libs.junit.bom))
     testImplementation(libs.kotlin.test.junit)
+    testImplementation(libs.mockk)
+
+    testImplementation("uk.org.webcompere:system-stubs-core:2.0.2")
+    testImplementation("uk.org.webcompere:system-stubs-junit4:2.0.2")
 
 }
 
