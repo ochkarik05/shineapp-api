@@ -1,9 +1,10 @@
-package com.shineapp.api
+package pro.shineapp.api
 
-import io.ktor.client.request.*
-import io.ktor.client.statement.*
-import io.ktor.http.*
-import io.ktor.server.testing.*
+import io.ktor.client.request.get
+import io.ktor.client.statement.bodyAsText
+import io.ktor.http.HttpStatusCode
+import io.ktor.server.config.ApplicationConfig
+import io.ktor.server.testing.testApplication
 import pro.shineapp.api.plugins.configureRouting
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -11,6 +12,9 @@ import kotlin.test.assertEquals
 class ApplicationTest {
     @Test
     fun testRoot() = testApplication {
+        environment {
+            config = ApplicationConfig("application-test.conf")
+        }
         application {
             configureRouting()
         }

@@ -20,6 +20,7 @@ bin/
 .idea
 *.iws
 *.iml
+*.swp
 *.ipr
 out/
 !**/src/main/**/out/
@@ -32,5 +33,8 @@ out/
 /nbdist/
 /.nb-gradle/
 
+keys/
+
 ### VS Code ###
 .vscode/
+/.run/ApplicationKt.run.xml

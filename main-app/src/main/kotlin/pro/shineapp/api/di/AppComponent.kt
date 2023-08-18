@@ -1,15 +1,18 @@
 package pro.shineapp.api.di
 
-import io.ktor.server.application.*
+import io.ktor.server.application.Application
+import io.ktor.server.application.ApplicationEnvironment
 import me.tatarka.inject.annotations.Component
 import me.tatarka.inject.annotations.Provides
 import pro.shineapp.api.auth.di.HashingComponent
 import pro.shineapp.api.auth.di.create
 import pro.shineapp.api.auth.security.token.TokenConfig
+import pro.shineapp.api.data.di.DbConfig
 import pro.shineapp.api.data.di.UserDataSourceComponent
 import pro.shineapp.api.data.di.create
 import java.util.concurrent.TimeUnit
 
+private val DB_NAME = "test-db"
 
 @Suppress("unused")
 @Component
@@ -21,11 +24,12 @@ abstract class AppComponent(
     abstract val tokenConfig: Lazy<TokenConfig>
 
     @Provides
-    fun tokenConfig() = TokenConfig(
-        audience = environment.config.property("jwt.issuer").getString(),
+    protected fun tokenConfig() = TokenConfig(
+        audience = environment.config.property("jwt.audience").getString(),
+        issuer = environment.config.property("jwt.issuer").getString(),
+        realm = environment.config.property("jwt.realm").getString(),
         expiresIn = TimeUnit.DAYS.toMillis(365),
-        issuer = environment.config.property("jwt.audience").getString(),
-        secret = System.getenv("JWT_SECRET")
+        secret = environment.config.property("jwt.secret").getString(),
     )
 }
 
@@ -39,10 +43,16 @@ private class ComponentHolder private constructor(environment: ApplicationEnviro
         appComponent =
             AppComponent::class.create(
                 HashingComponent::class.create(),
-                UserDataSourceComponent::class.create(),
+                UserDataSourceComponent::class.create(
+                    DbConfig(
+                        connectionString = "mongodb+srv://ochkarik05:${
+                            environment.config.property("mongoDb.password").getString()
+                        }@cluster0.dyepgrv.mongodb.net/$DB_NAME?retryWrites=true&w=majority",
+                        dbName = DB_NAME
+                    )
+                ),
                 environment
             )
-
     }
 
     companion object : SingletonHolder<ComponentHolder, ApplicationEnvironment>(::ComponentHolder)

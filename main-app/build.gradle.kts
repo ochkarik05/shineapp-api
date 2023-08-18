@@ -28,6 +28,7 @@ dependencies {
     implementation(libs.kotlin.inject.runtime)
     implementation(libs.ktor.client.apache.jvm)
     implementation(libs.ktor.client.core.jvm)
+    implementation(libs.ktor.server.html)
     implementation(libs.ktor.serialization.kotlinx.json.jvm)
     implementation(libs.ktor.server.auth.jvm)
     implementation(libs.ktor.server.auth.jwt.jvm)

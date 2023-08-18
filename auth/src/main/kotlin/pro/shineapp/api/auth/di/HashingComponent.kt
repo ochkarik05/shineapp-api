@@ -6,12 +6,15 @@ import pro.shineapp.api.auth.security.hashing.HashService
 import pro.shineapp.api.auth.security.hashing.HashingService
 import pro.shineapp.api.auth.security.hashing.SHA256HashingService
 import pro.shineapp.api.auth.security.hashing.SaltService
+import pro.shineapp.api.auth.security.token.JwtTokenService
+import pro.shineapp.api.auth.security.token.TokenService
 
 @Singleton
 @Component
-interface HashingComponent {
+abstract class HashingComponent {
 
-    val hashingService: HashingService
+    abstract val hashingService: HashingService
+    abstract val tokenService: TokenService
 
     @Provides
     fun saltService() = object : SaltService {}
@@ -19,7 +22,9 @@ interface HashingComponent {
     @Provides
     fun hasService() = object : HashService {}
 
-    val SHA256HashingService.bind: HashingService
+    protected val SHA256HashingService.bind: HashingService
         @Provides @Singleton get() = this
 
+    protected val JwtTokenService.bind: TokenService
+        @Provides @Singleton get() = this
 }

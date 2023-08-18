@@ -7,20 +7,24 @@ import org.litote.kmongo.reactivestreams.KMongo
 import pro.shineapp.api.data.source.MongoUserDataSource
 import pro.shineapp.api.data.source.UserDataSource
 
-private val DB_NAME = "test-db"
+data class DbConfig(
+    val connectionString: String,
+    val dbName: String,
+)
 
 @Singleton
 @Component
-abstract class UserDataSourceComponent() {
+abstract class UserDataSourceComponent(
+    private val dbConfig: DbConfig,
+) {
 
     abstract val userDataSource: UserDataSource
 
-    private val mongoPw by lazy { System.getenv("MONGO_PW") }
-
     @Provides
+    @Singleton
     protected fun providesDb() = KMongo.createClient(
-        connectionString = "mongodb+srv://ochkarik05:$mongoPw@cluster0.dyepgrv.mongodb.net/$DB_NAME?retryWrites=true&w=majority"
-    ).coroutine.getDatabase(DB_NAME)
+        connectionString = dbConfig.connectionString
+    ).coroutine.getDatabase(dbConfig.dbName)
 
     val MongoUserDataSource.bind: UserDataSource
         @Provides @Singleton get() = this

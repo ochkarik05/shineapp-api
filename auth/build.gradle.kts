@@ -16,16 +16,21 @@ repositories {
 dependencies {
     implementation(project(":data"))
 
+    implementation(libs.bson)
+    implementation(libs.kotlin.inject.runtime)
     implementation(libs.ktor.client.apache.jvm)
     implementation(libs.ktor.serialization.kotlinx.json.jvm)
     implementation(libs.ktor.server.auth.jvm)
     implementation(libs.ktor.server.auth.jwt.jvm)
+    implementation(libs.ktor.client.content.negotiation)
 
-    implementation(libs.kotlin.inject.runtime)
     ksp(libs.kotlin.inject.compiler.ksp)
 
-    testImplementation(platform(libs.junit.bom))
     testImplementation(libs.junit.jupiter)
+    testImplementation(libs.ktor.server.tests.jvm)
+    testImplementation(libs.truth)
+    testImplementation(platform(libs.junit.bom))
+    testImplementation(libs.mockk)
 }
 
 tasks.test {
