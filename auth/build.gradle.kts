@@ -15,6 +15,7 @@ repositories {
 
 dependencies {
     implementation(project(":data"))
+    implementation(project(":core"))
 
     implementation(libs.bson)
     implementation(libs.kotlin.inject.runtime)

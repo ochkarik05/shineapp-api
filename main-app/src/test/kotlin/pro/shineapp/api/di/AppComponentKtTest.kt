@@ -9,20 +9,6 @@ import java.util.concurrent.TimeUnit
 
 
 class AppComponentKtTest {
-    @Test
-    fun `the app component instance always the same`() = testApplication {
-        environment {
-            config = ApplicationConfig("application-test.conf")
-        }
-
-        application {
-            val comp1 = appComponent
-            val comp2 = appComponent
-            val comp3 = appComponent
-            assertThat(comp1).isSameInstanceAs(comp2)
-            assertThat(comp1).isSameInstanceAs(comp3)
-        }
-    }
 
     @Test
     fun `tokenConfig is provided correctly`() = testApplication {
@@ -32,6 +18,7 @@ class AppComponentKtTest {
         }
 
         application {
+            val appComponent = AppComponent::class.create(environment)
             val tokenConfig by appComponent.tokenConfig
             assertThat(tokenConfig).isEqualTo(
                 TokenConfig(

@@ -23,6 +23,7 @@ dependencies {
 
     implementation(project(":auth"))
     implementation(project(":data"))
+    implementation(project(":core"))
 
     implementation(libs.kmongo.coroutine)
     implementation(libs.kotlin.inject.runtime)

@@ -2,12 +2,17 @@ package pro.shineapp.api.auth.route
 
 import com.google.common.truth.Truth.assertThat
 import io.ktor.client.call.body
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.get
 import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
+import io.ktor.server.application.call
+import io.ktor.server.application.install
 import io.ktor.server.config.ApplicationConfig
+import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.server.response.respond
+import io.ktor.server.routing.get
+import io.ktor.server.routing.routing
 import io.ktor.server.testing.testApplication
 import io.mockk.every
 import io.mockk.mockk
@@ -37,7 +42,7 @@ class AuthRouteAuthenticateTest {
     fun `when is authenticated then no error`() = testApplication {
 
         val testHttpClient = createClient {
-            install(ContentNegotiation) {
+            this@testApplication.install(ContentNegotiation) {
                 json()
             }
         }
@@ -66,8 +71,22 @@ class AuthRouteAuthenticateTest {
     @Test
     fun `when is not authenticated then 401`() = testApplication {
 
+        externalServices {
+            hosts("https://accounts.google.com") {
+                install(ContentNegotiation) {
+                    json()
+                }
+
+                routing {
+                    get("o/oauth2/auth") {
+                        call.respond(HttpStatusCode.Unauthorized)
+                    }
+                }
+            }
+        }
+
         val testHttpClient = createClient {
-            install(ContentNegotiation) {
+            this@testApplication.install(ContentNegotiation) {
                 json()
             }
         }
@@ -95,7 +114,7 @@ class AuthRouteAuthenticateTest {
     fun `when is authenticated then secret path returns correct user id`() = testApplication {
 
         val testHttpClient = createClient {
-            install(ContentNegotiation) {
+            this@testApplication.install(ContentNegotiation) {
                 json()
             }
         }
