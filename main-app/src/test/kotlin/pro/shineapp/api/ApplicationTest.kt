@@ -1,11 +1,11 @@
 package pro.shineapp.api
 
+import com.google.common.truth.Truth.assertThat
 import io.ktor.client.request.get
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.config.ApplicationConfig
 import io.ktor.server.testing.testApplication
-import pro.shineapp.api.plugins.configureRouting
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -16,11 +16,10 @@ class ApplicationTest {
             config = ApplicationConfig("application-test.conf")
         }
         application {
-            configureRouting()
         }
         client.get("/").apply {
             assertEquals(HttpStatusCode.OK, status)
-            assertEquals("Hello World!", bodyAsText())
+            assertThat(bodyAsText()).contains("Login with Google")
         }
     }
 }

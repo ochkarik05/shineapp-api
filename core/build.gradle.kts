@@ -6,7 +6,7 @@ plugins {
     alias(libs.plugins.ksp)
 }
 
-group = "pro.shineapp.api.data"
+group = "com.shineapp.api.core"
 version = "unspecified"
 
 repositories {
@@ -15,15 +15,10 @@ repositories {
 
 dependencies {
 
-    implementation(project(":core"))
-
-    implementation(libs.kmongo.coroutine)
     implementation(libs.kotlin.inject.runtime)
-    implementation(libs.ktor.serialization.kotlinx.json.jvm)
-    ksp(libs.kotlin.inject.compiler.ksp)
 
-    testImplementation(platform(libs.junit.bom))
-    testImplementation(libs.junit.jupiter)
+    testImplementation(platform("org.junit:junit-bom:5.9.1"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
 }
 
 tasks.test {

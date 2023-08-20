@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "com.shineapp.api"
-version = "0.0.2"
+version = "0.0.3"
 
 application {
     mainClass.set("io.ktor.server.netty.EngineMain")
@@ -23,6 +23,7 @@ dependencies {
 
     implementation(project(":auth"))
     implementation(project(":data"))
+    implementation(project(":core"))
 
     implementation(libs.kmongo.coroutine)
     implementation(libs.kotlin.inject.runtime)
